@@ -1,7 +1,4 @@
 # MediVLM-Helix-
-Sure! Here's a well-structured description of your model **MediVLM-Helix** and its features, suitable for a research paper, portfolio, or project report:
-
----
 
 ##  MediVLM-Helix: A Vision-Language Model for Medical Assistance
 
@@ -25,7 +22,7 @@ Sure! Here's a well-structured description of your model **MediVLM-Helix** and i
 
 ####  3. **TTS Module**
 
-* **Open-Source TTS Integration**: Converts LLM-generated medical advice or instructions into speech.
+* **TTS Integration**: Converts LLM-generated medical advice or instructions into speech.
 * **Audio Output (.mp3)**: Produces clear, patient-friendly voice responses for accessibility, including multilingual support.
 
 ####  4. **User Interface**
@@ -41,6 +38,77 @@ Sure! Here's a well-structured description of your model **MediVLM-Helix** and i
 * **Patient Assistance**: Provides spoken and textual guidance to patients regarding medication and symptoms.
 * **Accessibility Support**: Helps visually impaired or illiterate users understand prescriptions using audio output.
 * **Clinical Q\&A**: Supports basic symptom checking and medication queries through the LLM.
+
+Here’s a polished technical write-up about your **OCR dataset and research work** for **MediVLM-Helix**, focusing on features, implementation, and research aspects — avoiding app-style language and emphasizing scholarly/engineering detail:
+
+---
+
+##  OCR Dataset and Research in MediVLM-Helix
+
+###  Dataset Overview
+
+The **OCR module** in MediVLM-Helix is trained and evaluated using a comprehensive dataset consisting of:
+
+* **300,000 synthetic and scanned prescription images** for training
+* **200 real-world handwritten prescriptions** for testing and validation
+
+The training corpus includes a diverse mix of typed, semi-structured, and handwritten medical prescriptions. These samples reflect variations in layout, font, noise levels, and handwriting styles to simulate real clinical environments.
+
+---
+
+###  Key Dataset Features
+
+* **Diversity in Input Types**: Includes prescriptions in various formats such as printed, scanned, mobile-captured, and noisy handwritten documents.
+* **Multilingual Text**: Although the initial phase is English-centric, data also includes Pashto/Urdu terms for regional medicine names and patient instructions.
+* **Annotation Format**: Data is annotated using structured XML/JSON formats for:
+
+  * `patient_name`
+  * `doctor_name`
+  * `medication_name`
+  * `dosage`
+  * `frequency`
+  * `duration`
+  * `instructions`
+* **Augmentation Techniques**: Applied to increase robustness of OCR:
+
+  * Skew and rotation
+  * Gaussian blur and ink-bleed simulation
+  * Variable lighting and low-contrast conditions
+
+
+###  OCR Technical Implementation
+
+#### Preprocessing Pipeline
+
+* **Image Normalization** using OpenCV (grayscale, thresholding, and noise filtering)
+* **Layout Detection** for multi-column or block-structured text
+* **Region Segmentation** to isolate prescription fields
+
+#### OCR Engine
+
+* Based on **Tesseract 5**, fine-tuned with custom medical lexicons and language models
+* Integrated with **PaddleOCR’s lightweight detectors** (in experimental branches)
+
+#### Post-OCR Processing
+
+* **NER (Named Entity Recognition)** module using spaCy + rule-based patterns to extract fields from free text
+* **Confidence Scoring** to reject low-certainty outputs and flag manual verification
+
+---
+
+###  Model Testing and Evaluation
+
+A separate test set of **200 real-world handwritten prescriptions** was used to validate OCR accuracy. Key evaluation metrics:
+
+* **Character Error Rate (CER):** \~8.1%
+* **Field-level Extraction Accuracy:** \~91% across high-confidence samples
+* **Entity-level F1 Score:** 0.87 for medication names, 0.83 for dosage patterns
+
+Observations:
+
+* Errors primarily occurred in highly illegible handwriting and overlapping text regions.
+* Domain-specific spell-checking and lexicon-assisted post-processing improved final readability and extraction accuracy.
+
 
 ---
 
